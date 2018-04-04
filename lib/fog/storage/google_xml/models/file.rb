@@ -119,6 +119,7 @@ module Fog
           options["Content-Type"] = content_type if content_type
           options["Expires"] = expires if expires
           options.merge!(metadata)
+          options.reject! { |key, _value| [:body].include?(key) }
 
           data = service.put_object(directory.key, key, body, options)
           merge_attributes(data.headers.reject { |key, _value| ["Content-Length", "Content-Type"].include?(key) })
